@@ -1,15 +1,17 @@
 package my.vaadin.app;
 
-import java.util.List;
 
 import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
-import com.vaadin.data.Property;
+import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.*;
+import my.vaadin.domain.CallSheet;
+import my.vaadin.domain.Cnum;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser window
@@ -17,65 +19,94 @@ import com.vaadin.ui.*;
  * <p>
  * The UI is initialized using {@link #init(VaadinRequest)}. This method is intended to be
  * overridden to add component to the user interface and initialize non-component functionality.
+ * 
+ * corbettcode@gmail.com
  */
 @Theme("mytheme")
 public class MyUI extends UI {
 
-    TextField testField = new TextField();
-    ComboBox testBox = new ComboBox();
 
-
+    private BeanItemContainer<CallSheet> container;
+    /**
+     * 
+     * @param vaadinRequest 
+     */
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        final VerticalLayout layout = new VerticalLayout();
+
+        final ComboBox selector = new ComboBox( "Call Sheet" );
+
+        container = new BeanItemContainer<>(CallSheet.class);
+        generateData();
+        
+        final Grid cnumGrid = new Grid( container );
+        cnumGrid.removeColumn("id");
+        cnumGrid.removeColumn("callSheet");
+        
+//        cnumGrid.setEditorEnabled(true);
+        
+        final Button saveButton = new Button(
+            "Save"
+            ,event ->
+                {
+                    Notification.show("Save button clicked");
+                }
+        );
+        final Button cancelButton = new Button( "Cancel", FontAwesome.TRASH );
+                cancelButton.addClickListener(
+                        event ->
+                        {
+                            
+                        }
+                );
+        
+        final Button newButton = new Button(
+                "New"
+                ,event ->
+                {
+                    final CallSheet callSheet = new CallSheet();
+                    callSheet.setCallSheet("A");
+                    callSheet.setCnum(new Cnum( 20 ));
+                    container.addBean( callSheet );
+                }
+        );
+        
+        final HorizontalLayout buttonBar = new HorizontalLayout(
+                saveButton
+                ,cancelButton
+                ,newButton
+        );
+
+        final VerticalLayout layout = new VerticalLayout(
+            selector
+                ,cnumGrid
+                ,buttonBar
+        );
         setContent(layout);
 
-        Label testLabel = new Label();
-
-
-        testBox.addValueChangeListener(new Property.ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                Notification.show("CHANGED");
-            }
-        });
-
-
-        testLabel.setValue("My new label");
-        testLabel.setValue("another label!");
-        testField.setValue("my test field");
-
-        testBox.addItem("item1");
-        testBox.addItem("item2");
-        testBox.addItem("item3");
-        testBox.addItem("item4");
-
-        layout.addComponent(testLabel);
-        layout.addComponent(testField);
-        layout.addComponent(testBox);
-        layout.addComponent(testField);
-
-
-        HorizontalLayout hLayout = new HorizontalLayout();
-        Label label2 = new Label("Another test label: ");
-        label2.setWidth("200px");
-        hLayout.addComponent(label2);
-        TextField field2 = new TextField();
-
-
-        TextField field3 = new TextField();  //Really long text field
-        field3.setHeight("600px");
-        //hLayout.addComponent(field3);
-
-        hLayout.addComponent(field2);
-        layout.addComponent(hLayout);
-        label2.setValue("2");
 
 
 
 
     }
 
+    private void generateData()
+    {
+       final CallSheet callSheet = new CallSheet();
+       callSheet.setCallSheet( "A" );
+       callSheet.setCnum(
+               new Cnum( 10 )
+       );
+       container.addBean( callSheet );
+    }
+    
+    
+    
+    
+    
+    
+    
+    
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
