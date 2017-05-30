@@ -2,15 +2,9 @@ package my.vaadin.domain;
 
 import java.util.UUID;
 
-/**
- *
- * @author ammar
- */
 public class Cnum {
     
-    /**
-     * 
-     */
+
     public Cnum()
     {
         super();
@@ -18,44 +12,38 @@ public class Cnum {
         id = UUID.randomUUID().toString();
     }
     
-    /**
-     * 
-     * @param _value
-     */
     public Cnum(
-            final int _value
+            final int value
     )
     {
         super();
         
         id = UUID.randomUUID().toString();
-        cnum = _value;
+        cnum = value;
     }
     
     private String id;
     public final String getId() { return id; }
     public void setId( 
-        final String _value 
+        final String value
     )
     {
-            id = _value;
+            id = value;
     }
     
-    /**
-     * 
-     */
+
     private int cnum = 0;
     public int getCnum()
     {
         return cnum;
     }
-    public void setCnum( final int _value )
+    public void setCnum( final int value )
     {
-        cnum = _value;
+        cnum = value;
     }
-    public Cnum withCnum( final int _value )
+    public Cnum withCnum( final int value )
     {
-        cnum = _value;
+        cnum = value;
         return this;
     }
    

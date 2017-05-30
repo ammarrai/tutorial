@@ -1,16 +1,8 @@
 package my.vaadin.domain;
-
 import java.util.UUID;
 
-/**
- *
- * @author ammar
- */
 public class CallSheet {
-    
-    /**
-     * 
-     */
+
     public CallSheet()
     {
         super();
@@ -21,15 +13,13 @@ public class CallSheet {
     private String id;
     public final String getId() { return id; }
     public void setId( 
-        final String _value 
+        final String value
     )
     {
-            id = _value;
+            id = value;
     }
   
-    /**
-     * 
-     */
+
     private String callSheet = "";
     public String getCallSheet()
     {
@@ -39,17 +29,15 @@ public class CallSheet {
         this.callSheet = callSheet;
     }
     
-    /**
-     * 
-     */
+
     private Cnum cnum;
     public Cnum getCnum()
     {
         return cnum;
     }
-    public void setCnum( final Cnum _value )
+    public void setCnum( final Cnum value )
     {
-        cnum = _value;
+        cnum = value;
     }
 }
 

@@ -13,18 +13,8 @@ import com.vaadin.ui.*;
 import my.vaadin.domain.CallSheet;
 import my.vaadin.domain.Cnum;
 
-/**
- * This UI is the application entry point. A UI may either represent a browser window
- * (or tab) or some part of a html page where a Vaadin application is embedded.
- * <p>
- * The UI is initialized using {@link #init(VaadinRequest)}. This method is intended to be
- * overridden to add component to the user interface and initialize non-component functionality.
- * 
- * corbettcode@gmail.com
- */
 @Theme("mytheme")
 public class MyUI extends UI {
-
 
     private BeanItemContainer<CallSheet> container;
     /**
@@ -34,7 +24,7 @@ public class MyUI extends UI {
     @Override
     protected void init(VaadinRequest vaadinRequest) {
 
-        final ComboBox selector = new ComboBox( "Call Sheet" );
+        final ComboBox selector = new ComboBox( "Call Sheets" );
 
         container = new BeanItemContainer<>(CallSheet.class);
         generateData();
