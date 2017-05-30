@@ -9,7 +9,7 @@ public class CallSheet {
     }
     
     private String id;
-    public final String getId() { return id; }
+    public String getId() { return id; }
     public void setId( 
         final String value
     )
@@ -18,7 +18,7 @@ public class CallSheet {
     }
   
 
-    private String callSheet = "";
+    private String callSheet;
     public String getCallSheet()
     {
         return callSheet;
@@ -28,14 +28,13 @@ public class CallSheet {
     }
     
 
-    private Cnum cnum;
-    public Cnum getCnum()
-    {
+    private int cnum;
+
+    public int getCnum() {
         return cnum;
     }
-    public void setCnum( final Cnum value )
-    {
-        cnum = value;
+    public void setCnum(int cnum) {
+        this.cnum = cnum;
     }
 }
 

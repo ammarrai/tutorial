@@ -6,13 +6,11 @@ import javax.servlet.annotation.WebServlet;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.*;
-import jdk.nashorn.internal.codegen.CompilerConstants;
+import jdk.nashorn.internal.ir.CallNode;
 import my.vaadin.domain.CallSheet;
-import my.vaadin.domain.Cnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +24,23 @@ public class MyUI extends UI {
     @Override
     protected void init(VaadinRequest vaadinRequest) {
 
-        List<CallSheet> Callsheet = new ArrayList<>();
+
+
+
+
 
 
         ComboBox selector = new ComboBox( "Call Sheets" );
 
+        List<CallSheet> Callsheet = new ArrayList<>();
+
+
+        CallSheet a = new CallSheet();
+        a.setCallSheet("AA");
+        Callsheet.add(a);
+        selector.addItem(a);
         container = new BeanItemContainer<>(CallSheet.class);
-        generateData();
+
         
         TextField cnumText = new TextField();
 
@@ -60,7 +68,7 @@ public class MyUI extends UI {
                 {
                     CallSheet callSheet = new CallSheet();
                     callSheet.setCallSheet("A");
-                    callSheet.setCnum(new Cnum( 20 ));
+                    callSheet.setCnum(20);
                     container.addBean( callSheet );
                 }
         );
@@ -84,7 +92,7 @@ public class MyUI extends UI {
 
 
     }
-
+/*
     private void generateData()
     {
        CallSheet callSheet = new CallSheet();
@@ -94,7 +102,7 @@ public class MyUI extends UI {
        );
        container.addBean( callSheet );
     }
-    
+  */
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
