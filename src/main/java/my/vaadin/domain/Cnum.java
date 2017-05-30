@@ -7,25 +7,22 @@ public class Cnum {
 
     public Cnum()
     {
-        super();
-        
-        id = UUID.randomUUID().toString();
+
     }
     
     public Cnum(
-            final int value
+            int value
     )
     {
-        super();
-        
-        id = UUID.randomUUID().toString();
+
+
         cnum = value;
     }
     
     private String id;
-    public final String getId() { return id; }
+    public String getId() { return id; }
     public void setId( 
-        final String value
+        String value
     )
     {
             id = value;
@@ -37,11 +34,11 @@ public class Cnum {
     {
         return cnum;
     }
-    public void setCnum( final int value )
+    public void setCnum(int value )
     {
         cnum = value;
     }
-    public Cnum withCnum( final int value )
+    public Cnum withCnum(int value )
     {
         cnum = value;
         return this;

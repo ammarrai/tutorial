@@ -13,28 +13,26 @@ import com.vaadin.ui.*;
 import my.vaadin.domain.CallSheet;
 import my.vaadin.domain.Cnum;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Theme("mytheme")
 public class MyUI extends UI {
 
 
     BeanItemContainer<CallSheet> container;
-    /**
-     * 
-     * @param vaadinRequest 
-     */
+
     @Override
     protected void init(VaadinRequest vaadinRequest) {
 
-        final ComboBox selector = new ComboBox( "Call Sheets" );
+        List<CallSheet> cnums = new ArrayList<>();
+
+        ComboBox selector = new ComboBox( "Call Sheets" );
 
         container = new BeanItemContainer<>(CallSheet.class);
         generateData();
         
         TextField cnumText = new TextField();
-
-        //cnumText.removeColumn("id");
-        //cnumText.removeColumn("callSheet");
-
 
         Button saveButton = new Button(
             "Save"
@@ -95,7 +93,6 @@ public class MyUI extends UI {
        container.addBean( callSheet );
     }
     
-
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
