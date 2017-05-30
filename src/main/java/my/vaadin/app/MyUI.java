@@ -16,7 +16,8 @@ import my.vaadin.domain.Cnum;
 @Theme("mytheme")
 public class MyUI extends UI {
 
-    private BeanItemContainer<CallSheet> container;
+
+    BeanItemContainer<CallSheet> container;
     /**
      * 
      * @param vaadinRequest 
@@ -29,28 +30,31 @@ public class MyUI extends UI {
         container = new BeanItemContainer<>(CallSheet.class);
         generateData();
         
-        final Grid cnumGrid = new Grid( container );
-        cnumGrid.removeColumn("id");
-        cnumGrid.removeColumn("callSheet");
-        
-//        cnumGrid.setEditorEnabled(true);
-        
-        final Button saveButton = new Button(
+        TextField cnumText = new TextField();
+
+        //cnumText.removeColumn("id");
+        //cnumText.removeColumn("callSheet");
+
+
+        Button saveButton = new Button(
             "Save"
             ,event ->
                 {
                     Notification.show("Save button clicked");
                 }
         );
-        final Button cancelButton = new Button( "Cancel", FontAwesome.TRASH );
+        saveButton.addStyleName("mynewclass");
+
+        Button cancelButton = new Button( "Cancel", FontAwesome.TRASH );
                 cancelButton.addClickListener(
                         event ->
                         {
                             
                         }
                 );
-        
-        final Button newButton = new Button(
+        cancelButton.addStyleName("mynewclass");
+
+        Button newButton = new Button(
                 "New"
                 ,event ->
                 {
@@ -60,7 +64,8 @@ public class MyUI extends UI {
                     container.addBean( callSheet );
                 }
         );
-        
+        newButton.addStyleName("mynewclass");
+
         final HorizontalLayout buttonBar = new HorizontalLayout(
                 saveButton
                 ,cancelButton
@@ -69,7 +74,7 @@ public class MyUI extends UI {
 
         final VerticalLayout layout = new VerticalLayout(
             selector
-                ,cnumGrid
+                ,cnumText
                 ,buttonBar
         );
         setContent(layout);
