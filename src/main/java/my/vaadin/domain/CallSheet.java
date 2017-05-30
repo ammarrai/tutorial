@@ -5,9 +5,7 @@ public class CallSheet {
 
     public CallSheet()
     {
-        super();
-        
-        id = UUID.randomUUID().toString();
+         id = UUID.randomUUID().toString();
     }
     
     private String id;
