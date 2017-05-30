@@ -45,7 +45,7 @@ public class MyUI extends UI {
         );
         saveButton.addStyleName("mynewclass");
 
-        Button cancelButton = new Button( "Cancel", FontAwesome.TRASH );
+        Button cancelButton = new Button( "Cancel");
                 cancelButton.addClickListener(
                         event ->
                         {
@@ -55,10 +55,10 @@ public class MyUI extends UI {
         cancelButton.addStyleName("mynewclass");
 
         Button newButton = new Button(
-                "New"
+                "New Callsheet"
                 ,event ->
                 {
-                    final CallSheet callSheet = new CallSheet();
+                    CallSheet callSheet = new CallSheet();
                     callSheet.setCallSheet("A");
                     callSheet.setCnum(new Cnum( 20 ));
                     container.addBean( callSheet );
@@ -66,13 +66,13 @@ public class MyUI extends UI {
         );
         newButton.addStyleName("mynewclass");
 
-        final HorizontalLayout buttonBar = new HorizontalLayout(
+        HorizontalLayout buttonBar = new HorizontalLayout(
                 saveButton
                 ,cancelButton
                 ,newButton
         );
 
-        final VerticalLayout layout = new VerticalLayout(
+        VerticalLayout layout = new VerticalLayout(
             selector
                 ,cnumText
                 ,buttonBar
@@ -87,7 +87,7 @@ public class MyUI extends UI {
 
     private void generateData()
     {
-       final CallSheet callSheet = new CallSheet();
+       CallSheet callSheet = new CallSheet();
        callSheet.setCallSheet( "A" );
        callSheet.setCnum(
                new Cnum( 10 )
@@ -95,13 +95,7 @@ public class MyUI extends UI {
        container.addBean( callSheet );
     }
     
-    
-    
-    
-    
-    
-    
-    
+
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
