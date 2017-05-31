@@ -108,11 +108,6 @@ public class MyUI extends UI {
 
     }
 
-    /*
-     * private void generateData() { CallSheet callSheet = new CallSheet();
-     * callSheet.setCallSheet( "A" ); callSheet.setCnum( new Cnum( 10 ) );
-     * container.addBean( callSheet ); }
-     */
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
