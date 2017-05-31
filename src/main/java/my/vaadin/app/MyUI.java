@@ -68,12 +68,12 @@ public class MyUI extends UI {
                         for (String cnum : cnumns) {
 
                             if (!StringUtil.isNumeric(cnum) && Integer.parseInt(cnum) < 0
-                                    && Integer.parseInt(cnum) > 1001) {
+                                    && Integer.parseInt(cnum) > 10000) {
 
-                                msg.append("Cnum must be number and it contains 0 to 1000 values : " + cnum + "\n");
+                                msg.append("Cnum must be number between 1- 10000 : " + cnum + "\n");
 
                             } else {
-
+                                callSheet.getCnum().add(Integer.parseInt(cnum));
                                 System.out.println("CallSheet :: " + selector.getValue());
                                 System.out.println("Cnums :: " + cnum);
                                 msg.append("Valid Cnum , Saved!" + cnum + "\n");
@@ -100,7 +100,6 @@ public class MyUI extends UI {
         Button newButton = new Button("New Callsheet", event -> {
             CallSheet callSheet = new CallSheet();
             callSheet.setCallSheet("A");
-            callSheet.setCnum(20);
             container.addBean(callSheet);
         });
         newButton.addStyleName("mynewclass");

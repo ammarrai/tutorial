@@ -1,22 +1,9 @@
 package my.vaadin.domain;
-import java.util.UUID;
+import java.util.ArrayList;
+
 
 public class CallSheet {
 
-    public CallSheet()
-    {
-         id = UUID.randomUUID().toString();
-    }
-    
-    private String id;
-    public String getId() { return id; }
-    public void setId( 
-        final String value
-    )
-    {
-            id = value;
-    }
-  
 
     private String callSheet;
     public String getCallSheet()
@@ -26,14 +13,14 @@ public class CallSheet {
     public void setCallSheet(String callSheet) {
         this.callSheet = callSheet;
     }
-    
 
-    private int cnum;
 
-    public int getCnum() {
+    private ArrayList<Integer>  cnum = new ArrayList();
+
+    public ArrayList<Integer> getCnum() {
         return cnum;
     }
-    public void setCnum(int cnum) {
+    public void setCnum(ArrayList<Integer> cnum) {
         this.cnum = cnum;
     }
 }
