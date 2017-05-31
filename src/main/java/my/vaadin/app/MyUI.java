@@ -58,7 +58,6 @@ public class MyUI extends UI {
                 } else {
 
                     CallSheet callSheet = new CallSheet();
-
                     callSheet.setCallSheet(selector.getValue().toString());
 
                     String cnumns[] = cnumText.getValue().toString().split(",");
@@ -77,12 +76,12 @@ public class MyUI extends UI {
 
                                 System.out.println("CallSheet :: " + selector.getValue());
                                 System.out.println("Cnums :: " + cnum);
-                                msg.append("Valid Cnum , This is saved to database : " + cnum + "\n");
+                                msg.append("Valid Cnum , Saved!" + cnum + "\n");
                             }
                         }
                         Notification.show(msg.toString());
                     } catch (Exception e) {
-                        Notification.show("Invalid Input !!");
+                        Notification.show("Invalid Input!");
                     }
 
                     cnumText.clear();
