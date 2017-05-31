@@ -60,7 +60,8 @@ public class MyUI extends UI {
             }
         });
 
-                                                                    /* SAVE BUTTON */
+        /* SAVE BUTTON */
+
         Button saveButton = new Button("Save");
         saveButton.addClickListener(new ClickListener() {
 
@@ -68,26 +69,17 @@ public class MyUI extends UI {
             public void buttonClick(com.vaadin.ui.Button.ClickEvent event) {
 
                 if (selector.getValue() == null || cnumText.getValue() == null) {
-
                     Notification.show("Invalid Input !!");
-
                 } else {
-
                     CallSheet callSheet = new CallSheet();
                     callSheet.setCallSheet(selector.getValue().toString());
-
                     String cnumns[] = cnumText.getValue().toString().split(",");
-
                     StringBuilder msg = new StringBuilder();
-
                     try {
                         for (String cnum : cnumns) {
-
                             if (!StringUtil.isNumeric(cnum) && Integer.parseInt(cnum) < 0
                                     && Integer.parseInt(cnum) > 10000) {
-
                                 msg.append("Cnum must be number between 1- 10000 : " + cnum + "\n");
-
                             } else {
                                 callSheet.getCnum().add(Integer.parseInt(cnum));
                                 System.out.println("CallSheet :: " + selector.getValue());
@@ -106,7 +98,8 @@ public class MyUI extends UI {
         saveButton.addStyleName("mynewclass");
 
 
-                                                                            /* CANCEL BUTTON */
+        /* CANCEL BUTTON */
+
         Button cancelButton = new Button("Cancel");
         cancelButton.addClickListener(event -> {
 
@@ -114,28 +107,21 @@ public class MyUI extends UI {
         cancelButton.addStyleName("mynewclass");
 
 
-                                                                            /* NEW CALL SHEET BUTTON */
+        /* NEW CALL SHEET BUTTON */
+
         Button newButton = new Button("New Callsheet");
         newButton.addClickListener(new ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 CallSheet newCallSheetWindow = new CallSheet();
                 MyUI.getCurrent().addWindow(newCallSheetWindow);
-
             }
         });
         newButton.addStyleName("mynewclass");
 
-//            CallSheet callSheet = new CallSheet();
-//            callSheet.setCallSheet("A");
-//            container.addBean(callSheet);
-//        });
-//        newButton.addStyleName("mynewclass");
-
       HorizontalLayout buttonBar = new HorizontalLayout(saveButton, cancelButton, newButton);
        VerticalLayout layout = new VerticalLayout(selector, cnumText, buttonBar);
       setContent(layout);
-
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)

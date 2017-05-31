@@ -5,6 +5,8 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
+import javax.xml.soap.Text;
+
 /**
  * Created by markrai on 5/31/2017.
  */
@@ -13,6 +15,7 @@ public class NewCallSheet extends Window {
     public NewCallSheet() {
         setModal(true);
 
+
         TextField cnumText = new TextField();
         TextField CallSheetText = new TextField();
         Button saveButton = new Button("Save");
@@ -20,8 +23,12 @@ public class NewCallSheet extends Window {
 
         VerticalLayout content = new VerticalLayout(cnumText, CallSheetText, saveButton, cancelButton);
 
-    //    Button saveButton = new Button("Save");
-//        saveButton.addClickListener(new Button.ClickListener() {}
-  //      cancelButton.addClickListener(new Button.ClickListener() {}
+content.addComponent(cnumText);
+content.addComponent(CallSheetText);
+content.addComponent(saveButton);
+content.addComponent(cancelButton);
+
+        setContent(content);
+
     }
 }
