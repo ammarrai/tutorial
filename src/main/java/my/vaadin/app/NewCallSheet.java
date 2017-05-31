@@ -2,6 +2,7 @@ package my.vaadin.app;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 /**
@@ -14,10 +15,13 @@ public class NewCallSheet extends Window {
 
         TextField cnumText = new TextField();
         TextField CallSheetText = new TextField();
-
-
         Button saveButton = new Button("Save");
-        //saveButton.addClickListener(new Button.ClickListener() {}
-        //cancelButton.addClickListener(new Button.ClickListener() {}
+        Button cancelButton = new Button("Cancel");
+
+        VerticalLayout content = new VerticalLayout(cnumText, CallSheetText, saveButton, cancelButton);
+
+    //    Button saveButton = new Button("Save");
+//        saveButton.addClickListener(new Button.ClickListener() {}
+  //      cancelButton.addClickListener(new Button.ClickListener() {}
     }
 }

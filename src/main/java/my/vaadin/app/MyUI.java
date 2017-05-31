@@ -6,14 +6,8 @@ import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.Button;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 
 import org.jsoup.helper.StringUtil;
 
@@ -66,6 +60,7 @@ public class MyUI extends UI {
             }
         });
 
+                                                                    /* SAVE BUTTON */
         Button saveButton = new Button("Save");
         saveButton.addClickListener(new ClickListener() {
 
@@ -110,23 +105,36 @@ public class MyUI extends UI {
         });
         saveButton.addStyleName("mynewclass");
 
+
+                                                                            /* CANCEL BUTTON */
         Button cancelButton = new Button("Cancel");
         cancelButton.addClickListener(event -> {
 
         });
         cancelButton.addStyleName("mynewclass");
 
-        Button newButton = new Button("New Callsheet", event -> {
-            CallSheet callSheet = new CallSheet();
-            callSheet.setCallSheet("A");
-            container.addBean(callSheet);
+
+                                                                            /* NEW CALL SHEET BUTTON */
+        Button newButton = new Button("New Callsheet");
+        newButton.addClickListener(new ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                CallSheet newCallSheetWindow = new CallSheet();
+                MyUI.getCurrent().addWindow(newCallSheetWindow);
+
+            }
         });
         newButton.addStyleName("mynewclass");
 
-        HorizontalLayout buttonBar = new HorizontalLayout(saveButton, cancelButton, newButton);
+//            CallSheet callSheet = new CallSheet();
+//            callSheet.setCallSheet("A");
+//            container.addBean(callSheet);
+//        });
+//        newButton.addStyleName("mynewclass");
 
-        VerticalLayout layout = new VerticalLayout(selector, cnumText, buttonBar);
-        setContent(layout);
+      HorizontalLayout buttonBar = new HorizontalLayout(saveButton, cancelButton, newButton);
+       VerticalLayout layout = new VerticalLayout(selector, cnumText, buttonBar);
+      setContent(layout);
 
     }
 
