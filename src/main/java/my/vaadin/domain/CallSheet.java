@@ -1,4 +1,5 @@
 package my.vaadin.domain;
+
 import java.util.ArrayList;
 import java.util.List;
 
