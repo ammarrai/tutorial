@@ -7,8 +7,7 @@ public class CallSheet {
 
     private String callSheet;
 
-    public String getCallSheet()
-    {
+    public String getCallSheet() {
         return callSheet;
     }
     public void setCallSheet(String callSheet) {
