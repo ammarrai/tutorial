@@ -83,9 +83,6 @@ public class MyUI extends UI {
                     } catch (Exception e) {
                         Notification.show("Invalid Input!");
                     }
-
-                    cnumText.clear();
-                    selector.clear();
                 }
             }
         });
