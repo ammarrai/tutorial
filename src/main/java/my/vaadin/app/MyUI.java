@@ -1,16 +1,9 @@
 package my.vaadin.app;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.annotation.WebServlet;
-
-import org.jsoup.helper.StringUtil;
-
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.event.MouseEvents.ClickEvent;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
@@ -22,6 +15,15 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+import org.jsoup.helper.StringUtil;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.annotation.WebServlet;
+
 import my.vaadin.domain.CallSheet;
 
 @Theme("mytheme")
@@ -32,6 +34,7 @@ public class MyUI extends UI {
     @Override
     protected void init(VaadinRequest vaadinRequest) {
 
+        Map<String, CallSheet> callSheetMap = new LinkedHashMap<>();
         List<String> list = new ArrayList<>();
         list.add("AA");
         list.add("BB");
@@ -44,6 +47,24 @@ public class MyUI extends UI {
         ComboBox selector = new ComboBox("Call Sheets", container);
 
         TextField cnumText = new TextField();
+
+        selector.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+                if (valueChangeEvent.getProperty().getValue() != null) {
+                    String chosenCallsheet = valueChangeEvent.getProperty().getValue().toString();
+                    if (callSheetMap.get(chosenCallsheet) != null) {
+                        StringBuilder cnumsText = new StringBuilder();
+                        for (Integer cnum : callSheetMap.get(chosenCallsheet).getCnum()) {
+                            cnumsText.append(cnum + ",");
+                        }
+                        cnumText.setValue(cnumsText.toString().substring(0, cnumsText.toString().length()-1));
+                    } else {
+                        cnumText.clear();
+                    }
+                }
+            }
+        });
 
         Button saveButton = new Button("Save");
         saveButton.addClickListener(new ClickListener() {
@@ -80,6 +101,7 @@ public class MyUI extends UI {
                             }
                         }
                         Notification.show(msg.toString());
+                        callSheetMap.put(selector.getValue().toString(),callSheet);
                     } catch (Exception e) {
                         Notification.show("Invalid Input!");
                     }
