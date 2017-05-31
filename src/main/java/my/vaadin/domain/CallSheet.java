@@ -7,7 +7,7 @@ public class CallSheet {
 
 
     private String callSheet;
-    private ArrayList cnum;
+    private ArrayList<Integer> cnum = new ArrayList<>();
 
     public String getCallSheet() {
         return callSheet;
@@ -17,11 +17,11 @@ public class CallSheet {
         this.callSheet = callSheet;
     }
 
-    public ArrayList getCnum() {
+    public ArrayList<Integer> getCnum() {
         return cnum;
     }
 
-    public void setCnum(ArrayList cnum) {
+    public void setCnum(ArrayList<Integer> cnum) {
         this.cnum = cnum;
     }
 }
