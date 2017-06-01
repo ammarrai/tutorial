@@ -38,12 +38,6 @@ public class MyUI extends UI {
     protected void init(VaadinRequest vaadinRequest) {
 
         List<String> list = new ArrayList<>();
-        list.add("AA");
-        list.add("BB");
-        list.add("PC");
-        list.add("BM");
-        list.add("JB");
-        list.add("DK");
         container = new BeanItemContainer(String.class, list);
 
         selector = new ComboBox("Call Sheets", container);
@@ -105,16 +99,6 @@ public class MyUI extends UI {
         });
         saveButton.addStyleName("mynewclass");
 
-
-        /* CANCEL BUTTON */
-
-        Button cancelButton = new Button("Cancel");
-        cancelButton.addClickListener(event -> {
-
-        });
-        cancelButton.addStyleName("mynewclass");
-
-
         /* NEW CALL SHEET BUTTON */
 
         Button newButton = new Button("New Callsheet");
@@ -134,7 +118,7 @@ public class MyUI extends UI {
         });
         newButton.addStyleName("mynewclass");
 
-        HorizontalLayout buttonBar = new HorizontalLayout(saveButton, cancelButton, newButton);
+        HorizontalLayout buttonBar = new HorizontalLayout(saveButton, newButton);
         VerticalLayout layout = new VerticalLayout(selector, cnumText, buttonBar);
         setContent(layout);
     }
