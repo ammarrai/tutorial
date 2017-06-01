@@ -86,8 +86,8 @@ public class MyUI extends UI {
                     try {
                         for (String cnum : cnumns) {
                             if (!StringUtil.isNumeric(cnum) && Integer.parseInt(cnum) < 0
-                                    && Integer.parseInt(cnum) > 10000) {
-                                msg.append("Cnum must be number between 1- 10000 : " + cnum + "\n");
+                                    && Integer.parseInt(cnum) > 9999999) {
+                                msg.append("Cnum must be number between 1- 9999999 : " + cnum + "\n");
                             } else {
                                 callSheet.getCnum().add(Integer.parseInt(cnum));
                                 System.out.println("CallSheet :: " + selector.getValue());
@@ -121,7 +121,7 @@ public class MyUI extends UI {
         newButton.addClickListener(new ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                //Send current UI to Popup UI to manipulate data field
+                // Send current UI to Popup UI to manipulate data field
                 NewCallSheet newCallSheetWindow = new NewCallSheet((MyUI) UI.getCurrent());
                 newCallSheetWindow.setModal(true);
                 newCallSheetWindow.setResizable(true);
