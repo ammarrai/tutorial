@@ -12940,3 +12940,12 @@ div.v-layout.v-horizontal.v-widget {
 .mytheme .mynewclass {
 	margin: 5px;
 }
+
+.mytheme .textbox {
+	margin: 5px;
+	width: 130px;
+}
+
+.mytheme .buttonBar {
+	padding-left: 30px;
+}

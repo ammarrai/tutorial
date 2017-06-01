@@ -43,7 +43,7 @@ public class MyUI extends UI {
     protected void init(VaadinRequest vaadinRequest) {
 
         Label callSheetLabel = new Label("Callsheet Name:");
-        Label cnumsLabel = new Label("Complex Number");
+                Label cnumsLabel = new Label("Complex Number:");
         List<String> list = new ArrayList<>();
         container = new BeanItemContainer(String.class, list);
 
@@ -157,8 +157,9 @@ public class MyUI extends UI {
         buttonBar.addStyleName("buttonBar");
         VerticalLayout layout = new VerticalLayout(callSheetRow, cnumRow, buttonBar);
         setContent(layout);
-    }
+        layout.setMargin(true);
 
+    }
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
