@@ -1,7 +1,10 @@
 package my.vaadin.app;
 
+import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
@@ -12,23 +15,24 @@ import javax.xml.soap.Text;
  */
 public class NewCallSheet extends Window {
 
+
     public NewCallSheet() {
-        setModal(true);
-
-
+        super("Add New CallSheet");
+        Label callSheet = new Label("CallSheet");
+        Label cnumsLabel = new Label("CNUMS");
         TextField cnumText = new TextField();
         TextField CallSheetText = new TextField();
-        Button saveButton = new Button("Save");
+        Button saveButton = new Button("Add");
+        saveButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+
+            }
+        });
         Button cancelButton = new Button("Cancel");
 
-        VerticalLayout content = new VerticalLayout(cnumText, CallSheetText, saveButton, cancelButton);
-
-content.addComponent(cnumText);
-content.addComponent(CallSheetText);
-content.addComponent(saveButton);
-content.addComponent(cancelButton);
+        VerticalLayout content = new VerticalLayout(callSheet, CallSheetText, cnumsLabel, cnumText, saveButton, cancelButton);
 
         setContent(content);
-
     }
 }

@@ -4,6 +4,7 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.*;
@@ -52,7 +53,7 @@ public class MyUI extends UI {
                         for (Integer cnum : callSheetMap.get(chosenCallsheet).getCnum()) {
                             cnumsText.append(cnum + ",");
                         }
-                        cnumText.setValue(cnumsText.toString().substring(0, cnumsText.toString().length()-1));
+                        cnumText.setValue(cnumsText.toString().substring(0, cnumsText.toString().length() - 1));
                     } else {
                         cnumText.clear();
                     }
@@ -88,7 +89,7 @@ public class MyUI extends UI {
                             }
                         }
                         Notification.show(msg.toString());
-                        callSheetMap.put(selector.getValue().toString(),callSheet);
+                        callSheetMap.put(selector.getValue().toString(), callSheet);
                     } catch (Exception e) {
                         Notification.show("Invalid Input!");
                     }
@@ -110,18 +111,24 @@ public class MyUI extends UI {
         /* NEW CALL SHEET BUTTON */
 
         Button newButton = new Button("New Callsheet");
+        newButton.addStyleName("mynewclass");
+
+        HorizontalLayout buttonBar = new HorizontalLayout(saveButton, cancelButton, newButton);
+        VerticalLayout layout = new VerticalLayout(selector, cnumText, buttonBar);
+        setContent(layout);
         newButton.addClickListener(new ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                CallSheet newCallSheetWindow = new CallSheet();
-                MyUI.getCurrent().addWindow(newCallSheetWindow);
+                NewCallSheet newCallSheetWindow = new NewCallSheet();
+                newCallSheetWindow.setModal(true);
+                newCallSheetWindow.setResizable(true);
+                newCallSheetWindow.setDraggable(true);
+                newCallSheetWindow.setWidth("300px");
+                newCallSheetWindow.setHeight("-1px");
+                // Open it in the UI
+                addWindow(newCallSheetWindow);
             }
         });
-        newButton.addStyleName("mynewclass");
-
-      HorizontalLayout buttonBar = new HorizontalLayout(saveButton, cancelButton, newButton);
-       VerticalLayout layout = new VerticalLayout(selector, cnumText, buttonBar);
-      setContent(layout);
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
