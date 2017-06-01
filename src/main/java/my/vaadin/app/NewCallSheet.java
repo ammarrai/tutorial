@@ -32,17 +32,19 @@ public class NewCallSheet extends Window {
         Label cnumsLabel = new Label("Complex Number");
         cnumsLabel.addStyleName("textbox");
         TextField cnumText = new TextField();
-        TextField CallSheetText = new TextField();
+        TextField callSheetText = new TextField();
+        callSheetText.setStyleName("uppercase");
+        callSheetText.setMaxLength(2);
         Button saveButton = new Button("Add");
 
         saveButton.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                if (CallSheetText.getValue() == "" || cnumText.getValue() == "") {
+                if (callSheetText.getValue() == "" || cnumText.getValue() == "") {
                     Notification.show("Invalid Input !!");
                 } else {
                     // Get data from popup Window
-                    String inputtedCallSheet = CallSheetText.getValue().toString();
+                    String inputtedCallSheet = callSheetText.getValue().toString();
                     String cnumns[] = cnumText.getValue().toString().split(",");
 
                     // Create a new CallSheet object
@@ -55,7 +57,7 @@ public class NewCallSheet extends Window {
                             msg.append("Cnum must be number between 1- 10000 : " + cnum + "\n");
                         } else {
                             sheet.getCnum().add(Integer.parseInt(cnum));
-                            System.out.println("CallSheet :: " + CallSheetText.getValue());
+                            System.out.println("CallSheet :: " + callSheetText.getValue());
                             System.out.println("Cnums :: " + cnum);
                             msg.append("Valid Cnum , Saved!" + cnum + "\n");
                         }
@@ -78,7 +80,7 @@ public class NewCallSheet extends Window {
             }
         });
 
-        HorizontalLayout callSheetRow = new HorizontalLayout(callSheet, CallSheetText);
+        HorizontalLayout callSheetRow = new HorizontalLayout(callSheet, callSheetText);
         HorizontalLayout cnumRow = new HorizontalLayout(cnumsLabel, cnumText);
         HorizontalLayout buttonBar = new HorizontalLayout(saveButton, cancelButton);
         buttonBar.addStyleName("buttonBar");

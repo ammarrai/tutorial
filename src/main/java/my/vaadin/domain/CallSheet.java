@@ -1,15 +1,8 @@
 package my.vaadin.domain;
 
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Window;
-
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Spliterator;
-import java.util.function.Consumer;
 
-
-public class CallSheet extends Window {
+public class CallSheet {
 
 
     private String callSheet;
@@ -26,19 +19,6 @@ public class CallSheet extends Window {
     public ArrayList<Integer> getCnum() {
         return cnum;
     }
-
-    public void setCnum(ArrayList<Integer> cnum) {
-        this.cnum = cnum;
-    }
-
-    @Override
-    public void forEach(Consumer<? super Component> action) {
-
-    }
-
-    @Override
-    public Spliterator<Component> spliterator() {
-        return null;
-    }
 }
+
 

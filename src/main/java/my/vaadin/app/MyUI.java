@@ -1,3 +1,4 @@
+//If a user makes changes in the Complex Number textbox, and then he clicks on the "New Callsheet" button, the same "Are you sure" pop-up should appear.
 package my.vaadin.app;
 
 import com.vaadin.annotations.Theme;
@@ -42,6 +43,7 @@ public class MyUI extends UI {
     @Override
     protected void init(VaadinRequest vaadinRequest) {
 
+
         Label callSheetLabel = new Label("Callsheet Name:");
                 Label cnumsLabel = new Label("Complex Number:");
         List<String> list = new ArrayList<>();
@@ -55,78 +57,64 @@ public class MyUI extends UI {
 
         cnumText = new TextField();
 
-        cnumText.addTextChangeListener(new FieldEvents.TextChangeListener() {
-            @Override
-            public void textChange(FieldEvents.TextChangeEvent textChangeEvent) {
-                valueChangeFlag = true;
-            }
-        });
+        cnumText.addTextChangeListener((FieldEvents.TextChangeListener) textChangeEvent -> valueChangeFlag = true);
         cnumsLabel.addStyleName("textbox");
 
-        selector.addValueChangeListener(new Property.ValueChangeListener() {
-            @Override
-            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
-                String cnumCurrentVal = cnumText.getValue();
-                if(valueChangeFlag){
-                    ConfirmDialog.show(UI.getCurrent(), "You have unsaved changes! Are you sure?", new ConfirmDialog.Listener() {
-                                public void onClose(ConfirmDialog dialog) {
-                                    if (dialog.isConfirmed()) {
-                                    } else {
-                                        cnumText.setValue(cnumCurrentVal);
-                                        dialog.close();
-                                    }
-                                }
-                            });
-                }
-                if (valueChangeEvent.getProperty().getValue() != null) {
-                    String chosenCallsheet = valueChangeEvent.getProperty().getValue().toString();
-                    if (callSheetMap.get(chosenCallsheet) != null) {
-                        StringBuilder cnumsText = new StringBuilder();
-                        for (Integer cnum : callSheetMap.get(chosenCallsheet).getCnum()) {
-                            cnumsText.append(cnum + ",");
-                        }
-                        cnumText.setValue(cnumsText.toString().substring(0, cnumsText.toString().length() - 1));
+        selector.addValueChangeListener((Property.ValueChangeListener) valueChangeEvent -> {
+            String cnumCurrentVal = cnumText.getValue();
+            if(valueChangeFlag){
+                ConfirmDialog.show(UI.getCurrent(), "You have unsaved changes! Are you sure?", (ConfirmDialog.Listener) dialog -> {
+                    if (dialog.isConfirmed()) {
                     } else {
-                        cnumText.clear();
+                        cnumText.setValue(cnumCurrentVal);
+                        dialog.close();
                     }
-                    valueChangeFlag=false;
+                });
+            }
+            if (valueChangeEvent.getProperty().getValue() != null) {
+                String chosenCallsheet = valueChangeEvent.getProperty().getValue().toString();
+                if (callSheetMap.get(chosenCallsheet) != null) {
+                    StringBuilder cnumsText = new StringBuilder();
+                    for (Integer cnum : callSheetMap.get(chosenCallsheet).getCnum()) {
+                        cnumsText.append(cnum + ",");
+                    }
+                    cnumText.setValue(cnumsText.toString().substring(0, cnumsText.toString().length() - 1));
+                } else {
+                    cnumText.clear();
                 }
+                valueChangeFlag=false;
             }
         });
 
         /* SAVE BUTTON */
 
         Button saveButton = new Button("Save");
-        saveButton.addClickListener(new ClickListener() {
+        saveButton.addClickListener((ClickListener) event -> {
 
-            @Override
-            public void buttonClick(com.vaadin.ui.Button.ClickEvent event) {
-
-                if (selector.getValue() == null || cnumText.getValue() == null) {
-                    Notification.show("Invalid Input !!");
-                } else {
-                    CallSheet callSheet = new CallSheet();
-                    callSheet.setCallSheet(selector.getValue().toString());
-                    String cnumns[] = cnumText.getValue().toString().split(",");
-                    StringBuilder msg = new StringBuilder();
-                    try {
-                        for (String cnum : cnumns) {
-                            if (!StringUtil.isNumeric(cnum) && Integer.parseInt(cnum) < 0
-                                    && Integer.parseInt(cnum) > 9999999) {
-                                msg.append("Cnum must be number between 1- 9999999 : " + cnum + "\n");
-                            } else {
-                                callSheet.getCnum().add(Integer.parseInt(cnum));
-                                System.out.println("CallSheet :: " + selector.getValue());
-                                System.out.println("Cnums :: " + cnum);
-                                msg.append("Valid Cnum , Saved!" + cnum + "\n");
-                            }
+            if (selector.getValue() == null || cnumText.getValue() == null) {
+                Notification.show("Invalid Input !!");
+            } else {
+                CallSheet callSheet = new CallSheet();
+                callSheet.setCallSheet(selector.getValue().toString());
+                String cnumns[] = cnumText.getValue().toString().split(",");
+                StringBuilder msg = new StringBuilder();
+                try {
+                    for (String cnum : cnumns) {
+                        if (!StringUtil.isNumeric(cnum) && Integer.parseInt(cnum) < 0
+                                && Integer.parseInt(cnum) > 9999999) {
+                            msg.append("Cnum must be number between 1- 9999999 : " + cnum + "\n");
+                        } else {
+                            callSheet.getCnum().add(Integer.parseInt(cnum));
+                            System.out.println("CallSheet :: " + selector.getValue());
+                            System.out.println("Cnums :: " + cnum);
+                            msg.append("Valid Cnum , Saved!" + cnum + "\n");
                         }
-                        Notification.show(msg.toString());
-                        callSheetMap.put(selector.getValue().toString(), callSheet);
-                        valueChangeFlag=false;
-                    } catch (Exception e) {
-                        Notification.show("Invalid Input!");
                     }
+                    Notification.show(msg.toString());
+                    callSheetMap.put(selector.getValue().toString(), callSheet);
+                    valueChangeFlag=false;
+                } catch (Exception e) {
+                    Notification.show("Invalid Input!");
                 }
             }
         });
@@ -135,19 +123,16 @@ public class MyUI extends UI {
         /* NEW CALL SHEET BUTTON */
 
         Button newButton = new Button("New Callsheet");
-        newButton.addClickListener(new ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                // Send current UI to Popup UI to manipulate data field
-                NewCallSheet newCallSheetWindow = new NewCallSheet((MyUI) UI.getCurrent());
-                newCallSheetWindow.setModal(true);
-                newCallSheetWindow.setResizable(true);
-                newCallSheetWindow.setDraggable(true);
-                newCallSheetWindow.setWidth("400px");
-                newCallSheetWindow.setHeight("-1px");
-                // Open it in the UI
-                addWindow(newCallSheetWindow);
-            }
+        newButton.addClickListener((ClickListener) clickEvent -> {
+            // Send current UI to Popup UI to manipulate data field
+            NewCallSheet newCallSheetWindow = new NewCallSheet((MyUI) UI.getCurrent());
+            newCallSheetWindow.setModal(true);
+            newCallSheetWindow.setResizable(false);
+            newCallSheetWindow.setDraggable(false);
+            newCallSheetWindow.setWidth("400px");
+            newCallSheetWindow.setHeight("-1px");
+            // Open it in the UI
+            addWindow(newCallSheetWindow);
         });
         newButton.addStyleName("mynewclass");
 
