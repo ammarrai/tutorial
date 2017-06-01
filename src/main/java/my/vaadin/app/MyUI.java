@@ -43,7 +43,7 @@ public class MyUI extends UI {
     protected void init(VaadinRequest vaadinRequest) {
 
         Label callSheetLabel = new Label("Callsheet Name:");
-        Label cnumsLabel = new Label("Complex Number");
+        Label cnumsLabel = new Label("Complex Number:");
         List<String> list = new ArrayList<>();
         container = new BeanItemContainer(String.class, list);
 
@@ -58,6 +58,7 @@ public class MyUI extends UI {
         cnumText.addTextChangeListener(new FieldEvents.TextChangeListener() {
             @Override
             public void textChange(FieldEvents.TextChangeEvent textChangeEvent) {
+            // Use this flag to check if user is navigating to another callSheet
                 valueChangeFlag = true;
             }
         });
