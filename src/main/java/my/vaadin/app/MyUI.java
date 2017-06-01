@@ -4,12 +4,13 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.event.FieldEvents;
+import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
@@ -18,6 +19,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 import org.jsoup.helper.StringUtil;
+import org.vaadin.dialogs.ConfirmDialog;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -35,29 +37,47 @@ public class MyUI extends UI {
     ComboBox selector;
     TextField cnumText;
     Map<String, CallSheet> callSheetMap = new LinkedHashMap<>(); // Map to store Saved CallSheet
+    boolean valueChangeFlag = false;
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
 
         Label callSheetLabel = new Label("Callsheet Name:");
-
         Label cnumsLabel = new Label("Complex Number");
-
         List<String> list = new ArrayList<>();
-
         container = new BeanItemContainer(String.class, list);
 
-        selector = new ComboBox("Callsheet Name:", container);
+        selector = new ComboBox();
+
+        selector.setContainerDataSource(container);
 
         callSheetLabel.addStyleName("textbox");
 
-        cnumText = new TextField("Complex Number: ");
+        cnumText = new TextField();
 
+        cnumText.addTextChangeListener(new FieldEvents.TextChangeListener() {
+            @Override
+            public void textChange(FieldEvents.TextChangeEvent textChangeEvent) {
+                valueChangeFlag = true;
+            }
+        });
         cnumsLabel.addStyleName("textbox");
 
         selector.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+                String cnumCurrentVal = cnumText.getValue();
+                if(valueChangeFlag){
+                    ConfirmDialog.show(UI.getCurrent(), "You have unsaved changes! Are you sure?", new ConfirmDialog.Listener() {
+                                public void onClose(ConfirmDialog dialog) {
+                                    if (dialog.isConfirmed()) {
+                                    } else {
+                                        cnumText.setValue(cnumCurrentVal);
+                                        dialog.close();
+                                    }
+                                }
+                            });
+                }
                 if (valueChangeEvent.getProperty().getValue() != null) {
                     String chosenCallsheet = valueChangeEvent.getProperty().getValue().toString();
                     if (callSheetMap.get(chosenCallsheet) != null) {
@@ -69,6 +89,7 @@ public class MyUI extends UI {
                     } else {
                         cnumText.clear();
                     }
+                    valueChangeFlag=false;
                 }
             }
         });
@@ -102,6 +123,7 @@ public class MyUI extends UI {
                         }
                         Notification.show(msg.toString());
                         callSheetMap.put(selector.getValue().toString(), callSheet);
+                        valueChangeFlag=false;
                     } catch (Exception e) {
                         Notification.show("Invalid Input!");
                     }
@@ -121,7 +143,7 @@ public class MyUI extends UI {
                 newCallSheetWindow.setModal(true);
                 newCallSheetWindow.setResizable(true);
                 newCallSheetWindow.setDraggable(true);
-                newCallSheetWindow.setWidth("300px");
+                newCallSheetWindow.setWidth("400px");
                 newCallSheetWindow.setHeight("-1px");
                 // Open it in the UI
                 addWindow(newCallSheetWindow);
@@ -129,9 +151,10 @@ public class MyUI extends UI {
         });
         newButton.addStyleName("mynewclass");
 
-        FormLayout callSheetRow = new FormLayout( selector);
-        FormLayout cnumRow = new FormLayout( cnumText);
+        HorizontalLayout callSheetRow = new HorizontalLayout(callSheetLabel, selector);
+        HorizontalLayout cnumRow = new HorizontalLayout(cnumsLabel, cnumText);
         HorizontalLayout buttonBar = new HorizontalLayout(saveButton, newButton);
+        buttonBar.addStyleName("buttonBar");
         VerticalLayout layout = new VerticalLayout(callSheetRow, cnumRow, buttonBar);
         setContent(layout);
     }

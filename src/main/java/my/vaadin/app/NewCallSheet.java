@@ -1,6 +1,7 @@
 package my.vaadin.app;
 
 import com.vaadin.server.Page;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -26,8 +27,10 @@ public class NewCallSheet extends Window {
         Map<String, CallSheet> callSheetMap = myUI.getCallSheetMap();
 
         // Create components for popup Window
-        Label callSheet = new Label("CallSheet");
-        Label cnumsLabel = new Label("CNUMS");
+        Label callSheet = new Label("CallSheet Name");
+        callSheet.addStyleName("textbox");
+        Label cnumsLabel = new Label("Complex Number");
+        cnumsLabel.addStyleName("textbox");
         TextField cnumText = new TextField();
         TextField CallSheetText = new TextField();
         Button saveButton = new Button("Add");
@@ -75,11 +78,14 @@ public class NewCallSheet extends Window {
             }
         });
 
-        saveButton.addStyleName("mynewclass");
-        cancelButton.addStyleName("mynewclass");
+        HorizontalLayout callSheetRow = new HorizontalLayout(callSheet, CallSheetText);
+        HorizontalLayout cnumRow = new HorizontalLayout(cnumsLabel, cnumText);
         HorizontalLayout buttonBar = new HorizontalLayout(saveButton, cancelButton);
-        VerticalLayout content = new VerticalLayout(callSheet, CallSheetText, cnumsLabel, cnumText, buttonBar);
-
-        setContent(content);
+        buttonBar.addStyleName("buttonBar");
+        VerticalLayout layout = new VerticalLayout(callSheetRow, cnumRow, buttonBar);
+        layout.setComponentAlignment(buttonBar, Alignment.BOTTOM_CENTER);
+        layout.setComponentAlignment(callSheetRow, Alignment.BOTTOM_CENTER);
+        layout.setComponentAlignment(cnumRow, Alignment.BOTTOM_CENTER);
+        setContent(layout);
     }
 }
