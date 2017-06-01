@@ -4,11 +4,16 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 
 import org.jsoup.helper.StringUtil;
 
@@ -25,11 +30,13 @@ import my.vaadin.domain.CallSheet;
 public class MyUI extends UI {
 
     BeanItemContainer<CallSheet> container;
+    ComboBox selector;
+    TextField cnumText;
+    Map<String, CallSheet> callSheetMap = new LinkedHashMap<>(); // Map to store Saved CallSheet
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
 
-        Map<String, CallSheet> callSheetMap = new LinkedHashMap<>();
         List<String> list = new ArrayList<>();
         list.add("AA");
         list.add("BB");
@@ -37,11 +44,11 @@ public class MyUI extends UI {
         list.add("BM");
         list.add("JB");
         list.add("DK");
-        BeanItemContainer<CallSheet> container = new BeanItemContainer(String.class, list);
+        container = new BeanItemContainer(String.class, list);
 
-        ComboBox selector = new ComboBox("Call Sheets", container);
+        selector = new ComboBox("Call Sheets", container);
 
-        TextField cnumText = new TextField();
+        cnumText = new TextField();
 
         selector.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
@@ -111,15 +118,11 @@ public class MyUI extends UI {
         /* NEW CALL SHEET BUTTON */
 
         Button newButton = new Button("New Callsheet");
-        newButton.addStyleName("mynewclass");
-
-        HorizontalLayout buttonBar = new HorizontalLayout(saveButton, cancelButton, newButton);
-        VerticalLayout layout = new VerticalLayout(selector, cnumText, buttonBar);
-        setContent(layout);
         newButton.addClickListener(new ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                NewCallSheet newCallSheetWindow = new NewCallSheet();
+                //Send current UI to Popup UI to manipulate data field
+                NewCallSheet newCallSheetWindow = new NewCallSheet((MyUI) UI.getCurrent());
                 newCallSheetWindow.setModal(true);
                 newCallSheetWindow.setResizable(true);
                 newCallSheetWindow.setDraggable(true);
@@ -129,10 +132,47 @@ public class MyUI extends UI {
                 addWindow(newCallSheetWindow);
             }
         });
+        newButton.addStyleName("mynewclass");
+
+        HorizontalLayout buttonBar = new HorizontalLayout(saveButton, cancelButton, newButton);
+        VerticalLayout layout = new VerticalLayout(selector, cnumText, buttonBar);
+        setContent(layout);
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
+    }
+
+    public BeanItemContainer<CallSheet> getContainer() {
+        return container;
+    }
+
+    public void setContainer(BeanItemContainer<CallSheet> container) {
+        this.container = container;
+    }
+
+    public ComboBox getSelector() {
+        return selector;
+    }
+
+    public void setSelector(ComboBox selector) {
+        this.selector = selector;
+    }
+
+    public TextField getCnumText() {
+        return cnumText;
+    }
+
+    public void setCnumText(TextField cnumText) {
+        this.cnumText = cnumText;
+    }
+
+    public Map<String, CallSheet> getCallSheetMap() {
+        return callSheetMap;
+    }
+
+    public void setCallSheetMap(Map<String, CallSheet> callSheetMap) {
+        this.callSheetMap = callSheetMap;
     }
 }
