@@ -9,7 +9,9 @@ import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
@@ -37,12 +39,21 @@ public class MyUI extends UI {
     @Override
     protected void init(VaadinRequest vaadinRequest) {
 
+        Label callSheetLabel = new Label("Callsheet Name:");
+
+        Label cnumsLabel = new Label("Complex Number");
+
         List<String> list = new ArrayList<>();
+
         container = new BeanItemContainer(String.class, list);
 
-        selector = new ComboBox("Call Sheets", container);
+        selector = new ComboBox("Callsheet Name:", container);
 
-        cnumText = new TextField();
+        callSheetLabel.addStyleName("textbox");
+
+        cnumText = new TextField("Complex Number: ");
+
+        cnumsLabel.addStyleName("textbox");
 
         selector.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
@@ -118,8 +129,10 @@ public class MyUI extends UI {
         });
         newButton.addStyleName("mynewclass");
 
+        FormLayout callSheetRow = new FormLayout( selector);
+        FormLayout cnumRow = new FormLayout( cnumText);
         HorizontalLayout buttonBar = new HorizontalLayout(saveButton, newButton);
-        VerticalLayout layout = new VerticalLayout(selector, cnumText, buttonBar);
+        VerticalLayout layout = new VerticalLayout(callSheetRow, cnumRow, buttonBar);
         setContent(layout);
     }
 
