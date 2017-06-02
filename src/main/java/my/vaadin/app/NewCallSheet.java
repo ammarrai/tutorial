@@ -40,7 +40,7 @@ public class NewCallSheet extends Window {
         saveButton.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                if (callSheetText.getValue() == "" || cnumText.getValue() == "") {
+                if ("".equals(callSheetText.getValue()) || "".equals(cnumText.getValue())) {
                     Notification.show("Invalid Input !!");
                 } else {
                     // Get data from popup Window
