@@ -39,13 +39,15 @@ public class MyUI extends UI {
     TextField cnumText;
     Map<String, CallSheet> callSheetMap = new LinkedHashMap<>(); // Map to store Saved CallSheet
     boolean valueChangeFlag = false;
+    boolean validating = false;
+    String currentVal;
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
 
 
         Label callSheetLabel = new Label("Callsheet Name:");
-                Label cnumsLabel = new Label("Complex Number:");
+        Label cnumsLabel = new Label("Complex Number:");
         List<String> list = new ArrayList<>();
         container = new BeanItemContainer(String.class, list);
 
@@ -62,10 +64,12 @@ public class MyUI extends UI {
 
         selector.addValueChangeListener((Property.ValueChangeListener) valueChangeEvent -> {
             String cnumCurrentVal = cnumText.getValue();
-            if(valueChangeFlag){
+            if (valueChangeFlag) {
                 ConfirmDialog.show(UI.getCurrent(), "You have unsaved changes! Are you sure?", (ConfirmDialog.Listener) dialog -> {
                     if (dialog.isConfirmed()) {
+                        return;
                     } else {
+                        valueChangeFlag = true;
                         cnumText.setValue(cnumCurrentVal);
                         dialog.close();
                     }
@@ -82,7 +86,7 @@ public class MyUI extends UI {
                 } else {
                     cnumText.clear();
                 }
-                valueChangeFlag=false;
+                valueChangeFlag = false;
             }
         });
 
@@ -112,7 +116,7 @@ public class MyUI extends UI {
                     }
                     Notification.show(msg.toString());
                     callSheetMap.put(selector.getValue().toString(), callSheet);
-                    valueChangeFlag=false;
+                    valueChangeFlag = false;
                 } catch (Exception e) {
                     Notification.show("Invalid Input!");
                 }
@@ -124,15 +128,21 @@ public class MyUI extends UI {
 
         Button newButton = new Button("New Callsheet");
         newButton.addClickListener((ClickListener) clickEvent -> {
-            // Send current UI to Popup UI to manipulate data field
-            NewCallSheet newCallSheetWindow = new NewCallSheet((MyUI) UI.getCurrent());
-            newCallSheetWindow.setModal(true);
-            newCallSheetWindow.setResizable(false);
-            newCallSheetWindow.setDraggable(false);
-            newCallSheetWindow.setWidth("400px");
-            newCallSheetWindow.setHeight("-1px");
-            // Open it in the UI
-            addWindow(newCallSheetWindow);
+            String cnumCurrentVal = cnumText.getValue();
+            if (valueChangeFlag) {
+                ConfirmDialog.show(UI.getCurrent(), "You have unsaved changes! Are you sure?", (ConfirmDialog.Listener) dialog -> {
+                    if (dialog.isConfirmed()) {
+                        openCallsheetPopup();
+                        valueChangeFlag = false;
+                    } else {
+                        valueChangeFlag = true;
+                        cnumText.setValue(cnumCurrentVal);
+                        dialog.close();
+                    }
+                });
+            } else {
+                openCallsheetPopup();
+            }
         });
         newButton.addStyleName("mynewclass");
 
@@ -145,6 +155,7 @@ public class MyUI extends UI {
         layout.setMargin(true);
 
     }
+
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
@@ -180,5 +191,17 @@ public class MyUI extends UI {
 
     public void setCallSheetMap(Map<String, CallSheet> callSheetMap) {
         this.callSheetMap = callSheetMap;
+    }
+
+    private void openCallsheetPopup() {
+        // Send current UI to Popup UI to manipulate data field
+        NewCallSheet newCallSheetWindow = new NewCallSheet((MyUI) UI.getCurrent());
+        newCallSheetWindow.setModal(true);
+        newCallSheetWindow.setResizable(false);
+        newCallSheetWindow.setDraggable(false);
+        newCallSheetWindow.setWidth("400px");
+        newCallSheetWindow.setHeight("-1px");
+        // Open it in the UI
+        addWindow(newCallSheetWindow);
     }
 }

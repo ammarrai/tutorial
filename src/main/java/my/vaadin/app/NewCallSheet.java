@@ -67,6 +67,8 @@ public class NewCallSheet extends Window {
                     callSheetMap.put(inputtedCallSheet, sheet);
                     // Add new CallSheet to the selector
                     myUI.getSelector().addItem(inputtedCallSheet);
+                    myUI.getSelector().setValue(inputtedCallSheet);
+                    myUI.getCnumText().setValue(cnumText.getValue());
                     close();
 
                 }
